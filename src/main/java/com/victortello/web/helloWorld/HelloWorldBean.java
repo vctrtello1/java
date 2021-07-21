@@ -1,4 +1,4 @@
-package com.victortello.web;
+package com.victortello.web.helloWorld;
 
 public class HelloWorldBean {
 

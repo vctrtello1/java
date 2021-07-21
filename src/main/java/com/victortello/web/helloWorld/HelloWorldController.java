@@ -1,4 +1,4 @@
-package com.victortello.web;
+package com.victortello.web.helloWorld;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
