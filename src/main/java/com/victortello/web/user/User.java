@@ -1,4 +1,4 @@
-package com.victortello.web;
+package com.victortello.web.user;
 
 import java.util.Date;
 
