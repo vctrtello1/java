@@ -17,6 +17,10 @@ public class User {
         this.birthDate = birthDate;
     }
 
+    public User() {
+        
+    }
+
     @Id
     @GeneratedValue
     private Integer id;
@@ -42,7 +46,7 @@ public class User {
     public String getName() {
         return name;
     }
-    
+
     public void setName(String name) {
         this.name = name;
     }
@@ -55,7 +59,5 @@ public class User {
     public String toString() {
         return String.format("User [id=%s, name=%s, birthDate=%s]", id, name, birthDate);
     }
-    
-    
 
 }
