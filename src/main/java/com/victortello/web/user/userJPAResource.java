@@ -5,9 +5,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,13 +14,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import java.util.Optional;
 
 @RestController
 public class userJPAResource {
-
-    @Autowired
-    private UserDaoService service;
-
+    
     @Autowired
     private UserRepository userRepository;
 
@@ -34,22 +29,20 @@ public class userJPAResource {
 
 
     @GetMapping("/jpa/users/{id}")
-    public EntityModel<User> retrieveUser(@PathVariable int id) {
-        User user = service.findOne(id);
+    public Optional<User> retrieveUser(@PathVariable int id) {
+        Optional <User> user = userRepository.findById(id);
 
-        if (user == null){
+        if (!user.isPresent()){
             throw new UserNotFoundException("id-" + id);
         }
-            
-        EntityModel<User> resource = EntityModel.of(user);
-        WebMvcLinkBuilder linkTo = linkTo(methodOn(this.getClass()).retrieveAllUsers());
-        resource.add(linkTo.withRel("all-users"));
-        return resource;
+
+        return user;
+       
     }
 
     @PostMapping("/jpa/users")
     public ResponseEntity<Object> createUser(@Valid @RequestBody User user) {
-        User savedUser = service.save(user);
+        User savedUser = userRepository.save(user);
 
         URI location =  ServletUriComponentsBuilder.fromCurrentRequest()
         .path("/{id}").buildAndExpand(savedUser.getId()).toUri();
@@ -58,17 +51,7 @@ public class userJPAResource {
     }
 
     @DeleteMapping("/jpa/users/{id}")
-    public EntityModel<User> deleteUser(@PathVariable int id) {
-        
-        User user = service.deleteById(id);
-
-        if (user == null) {
-            throw new UserNotFoundException("id=" + id);
-        }
-        
-        EntityModel<User> resource = EntityModel.of(user);
-        WebMvcLinkBuilder linkTo = linkTo(methodOn(this.getClass()).retrieveAllUsers());
-        resource.add(linkTo.withRel("all-users"));
-        return resource;
+    public void deleteUser(@PathVariable int id) {
+        userRepository.deleteById(id);
     }
 }

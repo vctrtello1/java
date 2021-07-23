@@ -37,7 +37,9 @@ public class userResource {
         if (user == null){
             throw new UserNotFoundException("id-" + id);
         }
-            
+        
+
+        // use to send more info in the response
         EntityModel<User> resource = EntityModel.of(user);
         WebMvcLinkBuilder linkTo = linkTo(methodOn(this.getClass()).retrieveAllUsers());
         resource.add(linkTo.withRel("all-users"));
@@ -55,17 +57,11 @@ public class userResource {
     }
 
     @DeleteMapping("/users/{id}")
-    public EntityModel<User> deleteUser(@PathVariable int id) {
-        
+    public void deleteUser(@PathVariable int id) {        
         User user = service.deleteById(id);
 
         if (user == null) {
             throw new UserNotFoundException("id=" + id);
-        }
-        
-        EntityModel<User> resource = EntityModel.of(user);
-        WebMvcLinkBuilder linkTo = linkTo(methodOn(this.getClass()).retrieveAllUsers());
-        resource.add(linkTo.withRel("all-users"));
-        return resource;
+        }                
     }
 }
