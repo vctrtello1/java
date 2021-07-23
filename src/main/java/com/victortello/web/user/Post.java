@@ -1,17 +1,24 @@
 package com.victortello.web.user;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 @Entity
 public class Post {
 
-    private Integer id;
-    private String description;
-    
     public Post(Integer id, String description) {
         this.setId(id);
         this.setDescription(description);
     }
+
+    public Post() {
+    }
+
+    @Id
+    @GeneratedValue
+    private Integer id;
+    private String description;
 
     public String getDescription() {
         return description;
@@ -27,9 +34,6 @@ public class Post {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Post() {
-    }
+    }    
 
 }
